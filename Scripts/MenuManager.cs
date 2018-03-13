@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,5 +31,10 @@ public class MenuManager : MonoBehaviour {
     {   
         //atribuir o slider na UI com o mixer criado para controlar o volume do jogo.
         audioMixer.SetFloat("volume", volume);
+    }
+
+    public void resetPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }
