@@ -1,9 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public GameObject wrongAnswer;
     public GameObject Jogo;
 
+    public int levelToUnlock;
 
     //metodo para puxar as perguntas do Quiz.
     public Question[] questions;
@@ -46,7 +48,8 @@ public class GameManager : MonoBehaviour {
 
 
     void Start()
-    {   
+    {
+        
         // metodo para carregar a pergunta que estiver disponível na lista de perguntas não respondidas.
         if (unansweredQuestions == null )
         {
@@ -56,9 +59,14 @@ public class GameManager : MonoBehaviour {
 
         if (unansweredQuestions.Count == 0)
         {
+            Array.Clear(questions,0,questions.Length);
             endPanel.SetActive(true);
             Jogo.SetActive(false);
             unansweredQuestions = questions.ToList<Question>();
+            if (levelToUnlock > PlayerPrefs.GetInt("levelReached", 1))
+            {
+                PlayerPrefs.SetInt("levelReached", levelToUnlock);
+            }
         }
 
         SetCurrentQuestion();
@@ -74,7 +82,7 @@ public class GameManager : MonoBehaviour {
     void SetCurrentQuestion()
     {
         //metodo para selecionar a próxima pergunta de forma aleatoria.
-        int randomQuestionIndex = Random.Range(0, unansweredQuestions.Count);
+        int randomQuestionIndex = UnityEngine.Random.Range(0, unansweredQuestions.Count);
         currentQuestion = unansweredQuestions[randomQuestionIndex];
 
         factText.text = currentQuestion.fact;
